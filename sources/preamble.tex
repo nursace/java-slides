@@ -1,0 +1,114 @@
+% Shared Beamer preamble for Introduction to Programming with Java
+% Include with: \input{preamble}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+% Clean, professional palette (deep navy + muted teal accent)
+\definecolor{LectureNavy}{HTML}{1B3A4B}
+\definecolor{LectureAccent}{HTML}{2A9D8F}
+\definecolor{LectureGray}{HTML}{4A5568}
+\definecolor{CodeBg}{HTML}{F7FAFC}
+\definecolor{AlertBg}{HTML}{FFF5F5}
+\definecolor{TryBg}{HTML}{F0FFF4}
+\definecolor{QuizBg}{HTML}{EBF8FF}
+\definecolor{AnswerKeyBg}{HTML}{FFFFF0}
+\definecolor{AnswerGold}{HTML}{B7791F}
+\definecolor{KeywordBlue}{HTML}{2B6CB0}
+\definecolor{StringGreen}{HTML}{276749}
+\definecolor{CommentGray}{HTML}{718096}
+
+\setbeamercolor{structure}{fg=LectureNavy}
+\setbeamercolor{palette primary}{bg=LectureNavy,fg=white}
+\setbeamercolor{palette secondary}{bg=LectureAccent,fg=white}
+\setbeamercolor{palette tertiary}{bg=LectureGray,fg=white}
+% Madrid puts title/subtitle in a coloured box (inherits palette primary bg).
+% Title text must be light on that dark box — not navy-on-navy.
+\setbeamercolor{title}{fg=white,bg=LectureNavy}
+\setbeamercolor{subtitle}{fg=white,bg=LectureNavy}
+\setbeamercolor{author}{fg=LectureNavy}
+\setbeamercolor{date}{fg=LectureGray}
+\setbeamercolor{institute}{fg=LectureGray}
+\setbeamercolor{frametitle}{bg=LectureNavy,fg=white}
+\setbeamercolor{block title}{bg=LectureNavy,fg=white}
+\setbeamercolor{block body}{bg=CodeBg,fg=black}
+\setbeamercolor{block title alerted}{bg=LectureAccent,fg=white}
+\setbeamercolor{block body alerted}{bg=TryBg,fg=black}
+\setbeamercolor{block title example}{bg=LectureGray,fg=white}
+\setbeamercolor{block body example}{bg=AlertBg,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
+
+% listings: Java without shell-escape
+\lstdefinestyle{javastyle}{
+    language=Java,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{KeywordBlue}\bfseries,
+    commentstyle=\color{CommentGray}\itshape,
+    stringstyle=\color{StringGreen},
+    numbers=left,
+    numberstyle=\tiny\color{CommentGray},
+    numbersep=6pt,
+    frame=single,
+    rulecolor=\color{LectureGray!40},
+    backgroundcolor=\color{CodeBg},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=2,
+    captionpos=b,
+    morekeywords={var,record,sealed,permits,yield},
+}
+\lstset{style=javastyle}
+
+\newcommand{\javacode}[1]{\texttt{\small #1}}
+\newcommand{\trythis}[1]{%
+    \begin{alertblock}{Try this}
+    #1
+    \end{alertblock}%
+}
+\newcommand{\commonmistake}[1]{%
+    \begin{exampleblock}{Common mistake}
+    #1
+    \end{exampleblock}%
+}
+% Formative in-class checks: question slide, then a dedicated Answer slide
+\newcommand{\quizpause}{%
+    \par\vspace{0.5em}
+    {\small\textit{Pause --- answer (clicker / raise hand / neighbour) before the next slide.}}%
+}
+\newcommand{\quizbox}[1]{%
+    \setbeamercolor{block title}{bg=KeywordBlue,fg=white}%
+    \setbeamercolor{block body}{bg=QuizBg,fg=black}%
+    \begin{block}{Quiz}
+    #1
+    \end{block}%
+    \setbeamercolor{block title}{bg=LectureNavy,fg=white}%
+    \setbeamercolor{block body}{bg=CodeBg,fg=black}%
+}
+\newcommand{\answerbox}[1]{%
+    \setbeamercolor{block title}{bg=AnswerGold,fg=white}%
+    \setbeamercolor{block body}{bg=AnswerKeyBg,fg=black}%
+    \begin{block}{Answer}
+    #1
+    \end{block}%
+    \setbeamercolor{block title}{bg=LectureNavy,fg=white}%
+    \setbeamercolor{block body}{bg=CodeBg,fg=black}%
+}
+
+% Empty author/date placeholders for the lecturer to fill
+\author{}
+\date{}

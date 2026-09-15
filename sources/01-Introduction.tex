@@ -1,0 +1,548 @@
+%! Author = nursace
+%! Date = 15.09.2026
+
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage{color}
+% Lecture 01 — Introduction to Java
+% Course: Introduction to Programming with Java
+
+\input{preamble}
+
+\title{Lecture 01: Introduction to Java}
+\subtitle{Introduction to Programming with Java}
+
+\begin{document}
+
+%----------------------------------------------------------------------
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+%----------------------------------------------------------------------
+    \begin{frame}{Agenda}
+        \begin{enumerate}
+            \item What is Java?
+            \item A short history
+            \item Why learn Java?
+            \item How Java runs: source $\rightarrow$ bytecode $\rightarrow$ JVM
+            \item Where Java is used
+            \item How this course approaches Java
+            \item Looking ahead
+        \end{enumerate}
+    \end{frame}
+
+%======================================================================
+    \section{What is Java?}
+%======================================================================
+
+    \begin{frame}{What is Java?}
+        \textbf{Java} is a general-purpose, object-oriented programming language.
+        \vspace{0.8em}
+        \begin{itemize}
+            \item Designed for clarity, safety, and portability
+            \item Programs are written once and run on many platforms
+            (via the Java Virtual Machine)
+            \item Large standard library and huge ecosystem of tools and frameworks
+            \item Used in education, industry, research, and open-source software
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Java is \ldots}
+        \begin{columns}[T]
+            \begin{column}{0.48\textwidth}
+                \textbf{A language}
+                \begin{itemize}
+                    \item Syntax and rules
+                    \item Types, classes, methods
+                    \item What you type in \javacode{.java} files
+                \end{itemize}
+                \vspace{1em}
+                \textbf{A platform}
+                \begin{itemize}
+                    \item JVM + libraries
+                    \item Tools (compiler, debugger)
+                    \item Runtime services
+                \end{itemize}
+            \end{column}
+            \begin{column}{0.48\textwidth}
+                \textbf{An ecosystem}
+                \begin{itemize}
+                    \item Build tools (Maven, Gradle)
+                    \item IDEs (IntelliJ, Eclipse, VS~Code)
+                    \item Frameworks (Spring, Jakarta EE, \ldots)
+                    \item Community and documentation
+                \end{itemize}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{A first mental model}
+        \begin{block}{Three layers (for now)}
+            \begin{enumerate}
+                \item \textbf{You} write Java source code (\javacode{.java})
+                \item The \textbf{compiler} (\javacode{javac}) turns it into bytecode (\javacode{.class})
+                \item The \textbf{JVM} executes that bytecode on your machine
+            \end{enumerate}
+        \end{block}
+        \vspace{0.6em}
+        You do not need hardware-specific machine code for each OS---
+        the JVM handles that difference.
+    \end{frame}
+
+    \begin{frame}[fragile]{Hello, Java (preview)}
+        \begin{lstlisting}
+public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}
+        \end{lstlisting}
+        \vspace{0.4em}
+        \begin{itemize}
+            \item Every application needs a \javacode{main} method as an entry point
+            \item \javacode{System.out.println} prints a line to the console
+            \item Class name and file name usually match: \javacode{Hello.java}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{We will unpack this later}
+        For now, treat \javacode{public class \ldots} and \javacode{public static void main}
+        as the standard wrapper for a runnable program.
+        \vspace{0.8em}
+        \begin{itemize}
+            \item Later lectures: classes, methods, \javacode{static}, access modifiers
+            \item Today: motivation, platform model, and where Java fits
+        \end{itemize}
+        \vspace{0.6em}
+        \trythis{If you already have a JDK installed, compile and run
+        \javacode{Hello.java}. If not, we will set up the toolchain soon.}
+    \end{frame}
+
+    %--- Quiz checkpoint 1 (after What is Java?) ---
+    \begin{frame}{Quiz 1 --- What is Java?}
+        \quizbox{Which statement best describes Java?}
+        \begin{enumerate}
+            \item A markup language for web pages (like HTML)
+            \item A general-purpose, object-oriented language that runs via a JVM
+            \item A database query language
+            \item An operating system for servers
+        \end{enumerate}
+        \quizpause
+    \end{frame}
+
+    \begin{frame}{Answer --- Quiz 1}
+        \answerbox{\textbf{2.} A general-purpose, object-oriented language that runs via a JVM.}
+        \vspace{0.4em}
+        Java programs are written as source, compiled to bytecode, and executed by the
+        Java Virtual Machine---not by the CPU directly as native machine code.
+    \end{frame}
+
+%======================================================================
+    \section{A short history}
+%======================================================================
+
+    \begin{frame}{A short history of Java}
+        \begin{itemize}
+            \item \textbf{1991--1995:} Started at Sun Microsystems (project ``Oak'', then ``Java'')
+            \item Goal: write software that could run on many devices and networks
+            \item \textbf{1995:} Java 1.0 announced --- ``Write Once, Run Anywhere''
+            \item Grew with the web (applets era), then enterprise servers
+            \item \textbf{2010:} Oracle acquires Sun; Java continues as a major platform
+            \item Today: long-term support (LTS) releases such as Java~17 and Java~21
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Design ideas that still matter}
+        From the early design, Java emphasised:
+        \begin{itemize}
+            \item \textbf{Simplicity} relative to C/C++ (no manual memory management for most code)
+            \item \textbf{Object orientation} as a primary organising idea
+            \item \textbf{Safety}: strong typing, array bounds checks, sandboxing ideas
+            \item \textbf{Portability} via bytecode + JVM
+            \item \textbf{Productivity}: rich standard library
+        \end{itemize}
+        \vspace{0.5em}
+        These choices explain much of Java's classroom and industry success.
+    \end{frame}
+
+    \begin{frame}{Versions: what you need to know}
+        \begin{itemize}
+            \item Java has a versioned language \emph{and} platform
+            \item New features arrive regularly; LTS versions are common in courses and companies
+            \item This course uses \textbf{modern Java} (Java~17-friendly examples are fine)
+            \item You rarely need to memorise version numbers early on
+        \end{itemize}
+        \vspace{0.6em}
+        \begin{block}{Practical tip}
+            Check your version with \javacode{java -version}.
+            Prefer a current LTS JDK for coursework.
+        \end{block}
+    \end{frame}
+
+%======================================================================
+    \section{Why learn Java?}
+%======================================================================
+
+    \begin{frame}{Career relevance}
+        \begin{itemize}
+            \item Java remains a top language in enterprise software
+            \item Common in banking, telecom, government, e-commerce, and SaaS
+            \item Android (historically and still widely) and JVM-based backends
+            \item Strong hiring signal: types, OOP, testing, and large codebases
+        \end{itemize}
+        \vspace{0.6em}
+        Learning Java is not only about one language---it trains habits used in
+        professional development.
+    \end{frame}
+
+    \begin{frame}{Portability: Write Once, Run Anywhere}
+        \begin{columns}[T]
+            \begin{column}{0.55\textwidth}
+                \begin{itemize}
+                    \item Same \javacode{.class} files can run on Windows, macOS, Linux, servers, containers
+                    \item Provided a compatible JVM is installed
+                    \item Reduces ``it works on my machine'' friction \emph{at the language/runtime level}
+                \end{itemize}
+            \end{column}
+            \begin{column}{0.40\textwidth}
+                \begin{block}{Caveat}
+                    Portability is not magic: file paths, encodings, and native libraries still need care.
+                \end{block}
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+    \begin{frame}{Ecosystem and tooling}
+        Java's ecosystem helps you grow beyond toy programs:
+        \begin{itemize}
+            \item Standard library: collections, I/O, concurrency, networking, \ldots
+            \item Build and dependency tools (Maven, Gradle)
+            \item Mature IDEs with refactoring and debugging
+            \item Testing frameworks (e.g.\ JUnit) used in industry
+            \item Huge amount of tutorials, books, and Stack Overflow answers
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{OOP foundation}
+        Java is a natural vehicle for learning \textbf{object-oriented programming}:
+        \begin{itemize}
+            \item Classes and objects as everyday building blocks
+            \item Encapsulation, inheritance, and interfaces (later in the course)
+            \item Clear separation of ``what an object knows'' and ``what it can do''
+        \end{itemize}
+        \vspace{0.6em}
+        These ideas transfer to C\#, Kotlin, TypeScript, and many other languages.
+    \end{frame}
+
+    \begin{frame}{Why Java in a first-year course?}
+        \begin{itemize}
+            \item Forces you to be explicit about types and structure
+            \item Errors often appear early (compile-time), which helps learning
+            \item Scales from small exercises to multi-file projects
+            \item Matches many follow-on courses (algorithms, software engineering, databases)
+        \end{itemize}
+        \vspace{0.5em}
+        \commonmistake{Thinking Java is ``only for big companies.''
+        It is also excellent for learning core CS ideas carefully.}
+    \end{frame}
+
+    %--- Quiz checkpoint 2 (after Why learn Java?) ---
+    \begin{frame}{Quiz 2 --- Why learn Java?}
+        \quizbox{True or false?\\[0.4em]
+        ``Write Once, Run Anywhere'' means a Java \javacode{.class} file can run on
+        different operating systems \emph{without} rewriting the program, as long as
+        a compatible JVM is available.}
+        \begin{enumerate}
+            \item True
+            \item False
+        \end{enumerate}
+        \quizpause
+    \end{frame}
+
+    \begin{frame}{Answer --- Quiz 2}
+        \answerbox{\textbf{True.} Bytecode is portable across platforms that provide a compatible JVM.}
+        \vspace{0.4em}
+        Caveat (from earlier): paths, encodings, and native libraries can still differ---
+        portability is strong at the language/runtime level, not magic for every detail.
+    \end{frame}
+
+%======================================================================
+    \section{How Java runs}
+%======================================================================
+
+    \begin{frame}{From idea to running program}
+        High-level pipeline:
+        \vspace{0.6em}
+        \begin{center}
+            \begin{tikzpicture}[
+                box/.style={draw=LectureNavy, rounded corners, align=center,
+                fill=CodeBg, minimum height=1.1cm, minimum width=2.4cm, font=\small},
+                arr/.style={-{Latex}, thick, LectureAccent}
+            ]
+                \node[box] (src) {Source\\{\ttfamily .java}};
+                \node[box, right=0.7cm of src] (cmp) {Compiler\\{\ttfamily javac}};
+                \node[box, right=0.7cm of cmp] (bc) {Bytecode\\{\ttfamily .class}};
+                \node[box, right=0.7cm of bc] (jvm) {JVM};
+                \node[box, right=0.7cm of jvm] (out) {Output};
+                \draw[arr] (src) -- (cmp);
+                \draw[arr] (cmp) -- (bc);
+                \draw[arr] (bc) -- (jvm);
+                \draw[arr] (jvm) -- (out);
+            \end{tikzpicture}
+        \end{center}
+        \vspace{0.5em}
+        Keep this pipeline in mind whenever something ``does not run'':
+        Was it compiled? Is the class name correct? Is a JDK available?
+    \end{frame}
+
+    \begin{frame}{Source code}
+        \begin{itemize}
+            \item Human-readable text in \javacode{.java} files
+            \item Must follow Java's syntax rules
+            \item Organised into classes (and later packages)
+            \item Edited in any text editor or IDE
+        \end{itemize}
+        \vspace{0.5em}
+        \begin{block}{Analogy}
+            Source code is the recipe. The computer cannot ``cook'' it directly
+            until it is compiled and executed.
+        \end{block}
+    \end{frame}
+
+    \begin{frame}{Bytecode (high level)}
+        \begin{itemize}
+            \item The compiler produces \textbf{bytecode}, not native CPU instructions
+            \item Bytecode is a compact instruction set for the JVM
+            \item Stored typically in \javacode{.class} files
+            \item Same bytecode can be shipped to different operating systems
+        \end{itemize}
+        \vspace{0.5em}
+        You do not write bytecode by hand in this course.
+    \end{frame}
+
+    \begin{frame}{The Java Virtual Machine (JVM)}
+        The \textbf{JVM} is a program that:
+        \begin{itemize}
+            \item Loads bytecode
+            \item Verifies it (basic safety checks)
+            \item Executes it (often with Just-In-Time compilation for speed)
+            \item Manages memory (garbage collection)
+        \end{itemize}
+        \vspace{0.5em}
+        Think of the JVM as a portable ``computer'' implemented in software.
+    \end{frame}
+
+    \begin{frame}{JDK vs JRE (student view)}
+        \begin{itemize}
+            \item \textbf{JDK} (Java Development Kit): compiler + tools + runtime --- what \emph{you} install to write programs
+            \item \textbf{JRE} (Java Runtime Environment): enough to \emph{run} programs (concept historically important)
+            \item In modern distributions, installing a JDK is the usual student choice
+        \end{itemize}
+        \vspace{0.5em}
+        \begin{block}{Command-line essentials}
+            \javacode{javac Hello.java} \quad then \quad \javacode{java Hello}
+        \end{block}
+    \end{frame}
+
+    \begin{frame}[fragile]{Compile and run (workflow)}
+        \begin{lstlisting}
+# In a terminal (comments for humans):
+javac Hello.java    # creates Hello.class
+java Hello          # runs the main method
+        \end{lstlisting}
+        \vspace{0.4em}
+        \begin{itemize}
+            \item Do not include \javacode{.class} in the \javacode{java} command
+            \item Class name is case-sensitive
+        \end{itemize}
+        \vspace{0.3em}
+        \commonmistake{Running \javacode{java Hello.java} by habit from other tools.
+        Classic workflow is \javacode{javac} then \javacode{java ClassName}.
+            (Some newer JDKs can run single-file source directly---nice, but learn the classic steps.)}
+    \end{frame}
+
+    \begin{frame}{Why this model helps beginners}
+        \begin{itemize}
+            \item Compile-time errors catch many mistakes early
+            \item Clear separation: editing vs compiling vs running
+            \item Encourages reading error messages carefully
+            \item Mirrors how larger projects are built
+        \end{itemize}
+    \end{frame}
+
+    %--- Quiz checkpoint 3 (after How Java runs) ---
+    \begin{frame}{Quiz 3 --- Compile and run}
+        \quizbox{You have a file \javacode{Hello.java}. Which pair is the classic workflow?}
+        \begin{enumerate}
+            \item \javacode{java Hello.java} then \javacode{javac Hello}
+            \item \javacode{javac Hello.java} then \javacode{java Hello}
+            \item \javacode{javac Hello} then \javacode{java Hello.class}
+            \item \javacode{java Hello} only (no compile step ever)
+        \end{enumerate}
+        \quizpause
+    \end{frame}
+
+    \begin{frame}{Answer --- Quiz 3}
+        \answerbox{\textbf{2.} \javacode{javac Hello.java} creates \javacode{Hello.class}; then \javacode{java Hello} runs it.}
+        \vspace{0.4em}
+        Do not pass \javacode{.class} to the \javacode{java} command. Some newer JDKs can run
+        a single source file directly---useful later, but learn the classic two steps first.
+    \end{frame}
+
+    \begin{frame}{Quiz 3b --- Bytecode (true/false)}
+        \quizbox{True or false?\\[0.4em]
+        The Java compiler produces native CPU machine code for your laptop's processor.}
+        \begin{enumerate}
+            \item True
+            \item False
+        \end{enumerate}
+        \quizpause
+    \end{frame}
+
+    \begin{frame}{Answer --- Quiz 3b}
+        \answerbox{\textbf{False.} The compiler produces \textbf{bytecode} for the JVM, not CPU-specific machine code.}
+        \vspace{0.4em}
+        The JVM (often with JIT compilation) handles execution on the actual hardware.
+    \end{frame}
+
+%======================================================================
+    \section{Where Java is used}
+%======================================================================
+
+    \begin{frame}{Where Java is used}
+        Java appears across many domains:
+        \begin{itemize}
+            \item \textbf{Backend / server} applications and APIs
+            \item \textbf{Android} applications (Java/Kotlin on the JVM/Android runtime family)
+            \item \textbf{Desktop} tools and cross-platform apps
+            \item \textbf{Big data} and streaming (e.g.\ parts of Hadoop/Kafka ecosystems)
+            \item \textbf{Scientific} and financial systems
+            \item \textbf{Embedded} and IoT in selected environments
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Enterprise and the web}
+        \begin{itemize}
+            \item Many companies run large Java services for years
+            \item Frameworks help structure web apps and microservices
+            \item Strong typing and tooling support large teams
+            \item Reliability and maintainability often matter as much as raw speed
+        \end{itemize}
+        \vspace{0.5em}
+        You will not build a full enterprise stack in week one---
+        but the language you learn here is the same foundation.
+    \end{frame}
+
+    \begin{frame}{Related languages on the JVM}
+        The JVM hosts more than Java:
+        \begin{itemize}
+            \item \textbf{Kotlin} --- popular for Android and modern JVM apps
+            \item \textbf{Scala}, \textbf{Clojure}, and others for specialised styles
+        \end{itemize}
+        \vspace{0.5em}
+        Learning Java first makes these easier to approach later.
+        \vspace{0.5em}
+        \trythis{After class, skim the Oracle or OpenJDK ``What is Java?'' overview page
+        and note three facts you did not know.}
+    \end{frame}
+
+    \begin{frame}{Java vs other first languages (honest comparison)}
+        \begin{tabular}{@{}lll@{}}
+            \toprule
+            \textbf{Aspect} & \textbf{Java} & \textbf{Often compared to} \\
+            \midrule
+            Typing & Static, explicit & Python (dynamic) \\
+            Verbosity & More ceremony early & Scripting languages \\
+            Feedback & Compile + run & Often interpret/run \\
+            OOP & Central & Varies \\
+            Industry & Very strong & Depends on domain \\
+            \bottomrule
+        \end{tabular}
+        \vspace{0.6em}
+        None is universally ``best''---Java is a strong teaching and career choice.
+    \end{frame}
+
+    %--- Quiz checkpoint 4 (after Where Java is used) ---
+    \begin{frame}{Quiz 4 --- Where Java is used}
+        \quizbox{Which domain is a \emph{typical} place you will meet Java in industry?}
+        \begin{enumerate}
+            \item Backend / server applications and APIs
+            \item Replacing HTML as the only language for static web pages
+            \item Writing GPU shader programs instead of GLSL
+            \item Assembling BIOS firmware for every laptop brand
+        \end{enumerate}
+        \quizpause
+    \end{frame}
+
+    \begin{frame}{Answer --- Quiz 4}
+        \answerbox{\textbf{1.} Backend / server applications and APIs (also Android/JVM apps, tools, finance, and more).}
+        \vspace{0.4em}
+        Java is not ``only enterprise,'' but large server-side systems are a very common home for it.
+    \end{frame}
+
+%======================================================================
+    \section{How this course approaches Java}
+%======================================================================
+
+    \begin{frame}{Course philosophy}
+        We will:
+        \begin{itemize}
+            \item Start with syntax and small programs you can reason about
+            \item Emphasise reading code, not only writing it
+            \item Introduce OOP concepts carefully, with examples
+            \item Practise debugging and explaining errors
+            \item Build toward structured, multi-class programs
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Habits that help}
+        \begin{itemize}
+            \item Type examples yourself---do not only read slides
+            \item Change one thing at a time and observe the result
+            \item Keep programs small until ideas are solid
+            \item Name variables meaningfully (\javacode{score}, not \javacode{x1})
+            \item Ask: ``What is the state of my program after this line?''
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tools you will use}
+        \begin{itemize}
+            \item A JDK (OpenJDK or another distribution)
+            \item A terminal for \javacode{javac} / \javacode{java}
+            \item An IDE or editor (course recommendation is IntelliJ IDEA)
+            \item Version control later (e.g.\ Git) for projects
+        \end{itemize}
+        \vspace{0.5em}
+        Setup details belong in a lab session; conceptually you now know \emph{why}
+        the JDK matters.
+    \end{frame}
+
+%======================================================================
+    \section{Looking ahead}
+%======================================================================
+
+    \begin{frame}{Key takeaways}
+        \begin{enumerate}
+            \item Java is a portable, object-oriented language with a large ecosystem
+            \item Career, portability, tools, and OOP foundations motivate learning it
+            \item Source $\rightarrow$ bytecode $\rightarrow$ JVM is the core execution story
+            \item Java powers servers, Android, tools, and many large systems
+            \item This course builds from small, clear programs toward OOP design
+        \end{enumerate}
+    \end{frame}
+
+    \begin{frame}{Questions?}
+        \begin{center}
+            {\Large What questions do you have about Java so far?}
+        \end{center}
+        \vspace{1.2em}
+        \begin{block}{Suggested reading / practice}
+            \begin{itemize}
+                \item Skim an official ``Introduction to Java'' overview
+                \item Install a JDK and run \javacode{java -version}
+                \item Compile and run a \javacode{Hello} program
+            \end{itemize}
+        \end{block}
+    \end{frame}
+
+\end{document}
